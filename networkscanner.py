@@ -31,6 +31,7 @@ class myscanner:
             #print(a)
     
     def scanarp(self):
+        print("Starting ARP Scan :")
         for x in self.ip_range_list:
             pkt=scapy.Ether(dst="ff:ff:ff:ff:ff:ff")/scapy.ARP(pdst=x)
             answered_pkt,unanswered_pkt=scapy.srp(pkt,timeout=1,verbose=0)
@@ -40,7 +41,7 @@ class myscanner:
                 queryanswer= (answered_pkt[0][1])
                 #print(queryanswer)
                 #print(queryanswer.show()) #detail of answer packet
-                print(f"MAC address of {queryanswer.psrc} is {queryanswer.hwsrc}")
+                print(f"IP :{queryanswer.hwsrc} answered and the MAC address is {queryanswer.psrc}")
             else:
                 #print("No answer received")
                 pass

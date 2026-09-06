@@ -34,8 +34,8 @@ Given one target, the tool runs the following steps in order:
 | 1 | `ipinformation()` | Prints the network details of the target (network address, mask, usable range) |
 | 2 | `ip_range()` | Expands a CIDR range into the list of usable host addresses |
 | 3 | `scanarp()` | Sends a broadcast ARP request to each host and reports the IP / MAC pairs that answer |
-| 4 | `stealth_port_scan()` | Half-open TCP SYN scan; on a SYN-ACK it replies with **RST** so the connection is never completed |
-| 5 | `port_scan()` | Same SYN scan, but on a SYN-ACK it replies with **ACK**, completing the handshake |
+| 4 | `stealth_port_scan()` | Half-open TCP SYN scan of every host in the target range; on a SYN-ACK it replies with **RST** so the connection is never completed |
+| 5 | `port_scan()` | Same SYN scan over the same hosts, but on a SYN-ACK it replies with **ACK**, completing the handshake |
 | 6 | `ping_sweep()` | Sends an ICMP echo request to each host and reports who replies |
 
 The port scans check a fixed list of 12 common TCP ports:
@@ -55,7 +55,7 @@ The port scans check a fixed list of 12 common TCP ports:
   * **Linux / macOS** — nothing to install, just run with `sudo`.
   * **Windows** — install [Npcap](https://npcap.com/) and tick *"Install Npcap in WinPcap
     API-compatible Mode"* during setup, then run your terminal **as Administrator**.
-* Python packages: `scapy`, `subnetcalc`
+* Python packages: `ipaddress`, `scapy`, `subnetcalc`
 
 ---
 
@@ -106,10 +106,10 @@ On Windows (PowerShell):
 .venv\Scripts\Activate.ps1
 ```
 
-Install the two dependencies:
+Install the dependencies:
 
 ```bash
-pip install scapy subnetcalc
+pip install ipaddress scapy subnetcalc
 ```
 
 Then run it — on Linux / macOS:
@@ -165,24 +165,14 @@ Received answer from 192.168.1.10
 
 ---
 
-## Known limitations
+## Status
 
-This is a V1 and a learning project. What is currently not right, and what I intend to fix:
+This is a **proof of concept**, written as a learning project rather than as a finished
+product. It is a V1: scans run sequentially, the port list is hardcoded, the target is only
+given through the interactive prompt, and results are printed to the terminal only.
 
-* **Port scanning only works correctly against a single host (`/32`).** In subnet mode both
-  port-scan functions send their packets to the base address of the range instead of the
-  host currently being iterated, so a `/24` scan ends up scanning the same address over and
-  over. Subnet mode is reliable today for the **ARP scan**; the port scans should be pointed
-  at one host at a time.
-* **The subnet ping sweep is unreliable.** It sends a layer-3 packet through a layer-2 send
-  function, which is not the correct pairing. The single-host path works.
-* **No threading.** Every probe is sent and waited on sequentially, so scanning a full `/24`
-  is very slow.
-* **The port list is hardcoded.** No way to choose your own ports or a range yet.
-* **No command-line arguments.** The target can only be given through the interactive
-  prompt, which makes the tool awkward to script.
-* **No output file.** Results are printed to the terminal only.
-* **IPv4 only, TCP only.** No IPv6 support, no UDP scanning, no service or version detection.
+The limitations are known and accepted for now — the goal was to understand and write the
+code myself, not to compete with `nmap`. Improvements will come in the next versions.
 
 ---
 

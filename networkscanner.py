@@ -104,7 +104,7 @@ class myscanner:
             for x in self.ip_range_list:
                 print(f"Starting stealth port scan of {x}")
                 for each_port in self.basic_tcp_port_list:
-                    pkt=scapy.IP(dst=self.instanceip.ip,proto=6)/scapy.TCP(dport=each_port,flags="S")
+                    pkt=scapy.IP(dst=x,proto=6)/scapy.TCP(dport=each_port,flags="S")
                     #print(pkt.show())   
                     answer_pkt=scapy.sr1(pkt,timeout=1,verbose=0)
                     if answer_pkt:
@@ -116,7 +116,7 @@ class myscanner:
                     #print(scan_answer.flags) #detail of answer packet
                         if scan_answer.flags =="SA":
                             print(f"SynAck answer received from port {pkt.dport}")
-                            close_pkt=scapy.IP(dst=self.instanceip.ip,proto=6)/scapy.TCP(dport=each_port,flags="R")
+                            close_pkt=scapy.IP(dst=x,proto=6)/scapy.TCP(dport=each_port,flags="R")
                             scapy.sr1(close_pkt,timeout=1,verbose=0)
                     #print(f"IP :{queryanswer.psrc} answered and the MAC address is {queryanswer.hwsrc}")
                     else:
@@ -147,7 +147,7 @@ class myscanner:
             for x in self.ip_range_list:
                 print(f"Starting port scan of {x}")
                 for each_port in self.basic_tcp_port_list:
-                    pkt=scapy.IP(dst=self.instanceip.ip,proto=6)/scapy.TCP(dport=each_port,flags="S")
+                    pkt=scapy.IP(dst=x,proto=6)/scapy.TCP(dport=each_port,flags="S")
                     #print(pkt.show())   
                     answer_pkt=scapy.sr1(pkt,timeout=1,verbose=0)
                     if answer_pkt:
@@ -159,7 +159,7 @@ class myscanner:
                     #print(scan_answer.flags) #detail of answer packet
                         if scan_answer.flags =="SA":
                             print(f"SynAck answer received from port {pkt.dport}")
-                            close_pkt=scapy.IP(dst=self.instanceip.ip,proto=6)/scapy.TCP(dport=each_port,flags="A")
+                            close_pkt=scapy.IP(dst=x,proto=6)/scapy.TCP(dport=each_port,flags="A")
                             scapy.sr1(close_pkt,timeout=1,verbose=0)
                     #print(f"IP :{queryanswer.psrc} answered and the MAC address is {queryanswer.hwsrc}")
                     else:
@@ -184,7 +184,7 @@ class myscanner:
             for x in self.ip_range_list:
                 print(f"trying to ping : {x}")
                 pkt=scapy.IP(dst=x)/scapy.ICMP()
-                answered_pkt,unanswered_pkt=scapy.srp(pkt,timeout=4,verbose=0)
+                answered_pkt,unanswered_pkt=scapy.sr(pkt,timeout=4,verbose=0)
                 if answered_pkt:
                     print(f"Received answer from {x}")
                     #print(len(answered_pkt))

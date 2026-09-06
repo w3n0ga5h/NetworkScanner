@@ -19,8 +19,8 @@ from my own field and understand it at the packet level: how an ARP request is a
 framed, why a half-open SYN scan is "stealthy", what a subnet mask really gives you.
 Writing the tool teaches far more than reading about it.
 
-[!NOTE]
-**Every line of Python in this repository was written by hand, without any AI assistance.**
+>[!NOTE]
+>**Every line of Python in this repository was written by hand, without any AI assistance.**
 That is the whole point of the exercise. The only exception is this README, which was
 written with the help of an AI — the code is mine, the documentation is not.
 

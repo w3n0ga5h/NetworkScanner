@@ -19,6 +19,7 @@ from my own field and understand it at the packet level: how an ARP request is a
 framed, why a half-open SYN scan is "stealthy", what a subnet mask really gives you.
 Writing the tool teaches far more than reading about it.
 
+[!NOTE]
 **Every line of Python in this repository was written by hand, without any AI assistance.**
 That is the whole point of the exercise. The only exception is this README, which was
 written with the help of an AI — the code is mine, the documentation is not.
@@ -172,7 +173,7 @@ product. It is a V1: scans run sequentially, the port list is hardcoded, the tar
 given through the interactive prompt, and results are printed to the terminal only.
 
 The limitations are known and accepted for now — the goal was to understand and write the
-code myself, not to compete with `nmap`. Improvements will come in the next versions.
+code myself, not to compete with `nmap`.
 
 ---
 
